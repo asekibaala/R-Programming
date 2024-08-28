@@ -4963,3 +4963,5 @@ prop.table(tab)
 
 events <- sample(beads, B, replace = TRUE)
 prop.table(table(events))
+
+x <- sample(beads, 5)
