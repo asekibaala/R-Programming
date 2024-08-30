@@ -5022,3 +5022,20 @@ hands <- combinations(52, 2, v = deck)
 mean(hands[,1] %in% aces & hands[,2] %in% facecard)
 
 #Monte Carlo
+
+hand <- sample(deck, 2)
+(hand[1] %in% aces & hand[2] %in% facecard) | 
+  (hand[2] %in% aces & hand[1] %in% facecard)
+
+
+blackjack <- function(){
+  hand <- sample(deck, 2)
+  (hand[1] %in% aces & hand[2] %in% facecard) | 
+    (hand[2] %in% aces & hand[1] %in% facecard)
+}
+
+blackjack()
+
+B <- 10000
+results <- replicate(B, blackjack())
+mean(results)
