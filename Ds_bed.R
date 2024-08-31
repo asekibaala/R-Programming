@@ -5039,3 +5039,52 @@ blackjack()
 B <- 10000
 results <- replicate(B, blackjack())
 mean(results)
+
+#stick strategy:
+B <- 10000
+monty_hall <- function(strategy){
+  doors <- as.character(1:3)
+  prize <- sample(c("car", "goat", "goat"))
+  prize_door <- doors[prize == "car"]
+  my_pick  <- sample(doors, 1)
+  show <- sample(doors[!doors %in% c(my_pick, prize_door)],1)
+  stick <- my_pick
+  stick == prize_door
+  switch <- doors[!doors %in% c(my_pick, show)]
+  choice <- ifelse(strategy == "stick", stick, switch)
+  choice == prize_door
+}
+stick <- replicate(B, monty_hall("stick"))
+mean(stick)
+
+switch <- replicate(B, monty_hall("switch"))
+mean(switch)
+
+#Birthday problem
+n <- 50
+bdays <- sample(1:365, n, replace = TRUE)
+
+duplicated(c(1, 2, 3, 1, 4, 3, 5))
+
+any(duplicated(bdays))
+
+B <- 10000
+same_birthday <- function(n){
+  bdays <- sample(1:365, n, replace = TRUE)
+  any(duplicated(bdays))
+}
+results <- replicate(B, same_birthday(50))
+mean(results)
+
+compute_prob <- function(n, B = 10000){
+  results <- replicate(B, same_birthday(n))
+  mean(results)
+}
+
+n <- seq(1,60)
+prob <- sapply(n, compute_prob)
+
+library(tidyverse)
+prob <- sapply(n, compute_prob)
+qplot(n, prob)
+
