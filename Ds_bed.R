@@ -5088,3 +5088,72 @@ library(tidyverse)
 prob <- sapply(n, compute_prob)
 qplot(n, prob)
 
+
+# Number of each type of ball
+cyan_balls <- 3
+magenta_balls <- 5
+yellow_balls <- 7
+
+# Total number of balls
+total_balls <- cyan_balls + magenta_balls + yellow_balls
+
+# Probability of drawing a cyan ball
+prob_cyan <- cyan_balls / total_balls
+prob_cyan
+
+# Probability of drawing a cyan ball
+prob_cyan <- cyan_balls / total_balls
+
+# Probability of NOT drawing a cyan ball
+prob_not_cyan <- 1 - prob_cyan
+prob_not_cyan
+
+
+
+# First draw probability (cyan)
+prob_first_cyan <- cyan_balls / total_balls
+
+# Update the counts after the first draw
+remaining_balls <- total_balls - 1
+remaining_non_cyan <- (magenta_balls + yellow_balls)
+
+# Second draw probability (not cyan)
+prob_second_not_cyan <- remaining_non_cyan / remaining_balls
+
+# Total probability of first cyan and second not cyan
+total_prob <- prob_first_cyan * prob_second_not_cyan
+total_prob
+
+
+# First draw probability (cyan)
+prob_first_cyan <- cyan_balls / total_balls
+
+# Second draw probability (not cyan) with replacement
+prob_second_not_cyan <- (magenta_balls + yellow_balls) / total_balls
+
+# Total probability of first cyan and second not cyan with replacement
+total_prob_with_replacement <- prob_first_cyan * prob_second_not_cyan
+total_prob_with_replacement
+
+# Probability of not rolling a 6 in a single roll
+prob_not_six_single <- 5/6
+
+# Probability of not rolling a 6 in 6 rolls
+prob_not_six_six_rolls <- prob_not_six_single^6
+prob_not_six_six_rolls
+
+
+# Probability that the Cavs win a single game
+prob_cavs_win <- 0.6
+
+# Probability that the Celtics lose all 7 games
+prob_celtics_lose_all <- prob_cavs_win^7
+
+# Probability that the Celtics win at least one game
+prob_celtics_win_at_least_one <- 1 - prob_celtics_lose_all
+
+# Output the result
+prob_celtics_win_at_least_one
+
+
+
