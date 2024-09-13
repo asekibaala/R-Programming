@@ -5156,4 +5156,10 @@ prob_celtics_win_at_least_one <- 1 - prob_celtics_lose_all
 prob_celtics_win_at_least_one
 
 
+library(tidyverse)
+library(dslabs)
+x <- heights %>% filter(sex == "Male") %>% pull(height)
 
+F <- function(a) mean(x <= a)
+
+1 - F(70)
