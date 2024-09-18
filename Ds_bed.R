@@ -5163,3 +5163,20 @@ x <- heights %>% filter(sex == "Male") %>% pull(height)
 F <- function(a) mean(x <= a)
 
 1 - F(70)
+
+mean(x <= 68.5) - mean(x <= 67.5)
+#> [1] 0.115
+mean(x <= 69.5) - mean(x <= 68.5)
+#> [1] 0.119
+mean(x <= 70.5) - mean(x <= 69.5)
+#> [1] 0.122
+
+
+
+
+pnorm(68.5, m, s) - pnorm(67.5, m, s) 
+#> [1] 0.103
+pnorm(69.5, m, s) - pnorm(68.5, m, s) 
+#> [1] 0.11
+pnorm(70.5, m, s) - pnorm(69.5, m, s) 
+#> [1] 0.108
