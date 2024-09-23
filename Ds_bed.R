@@ -5179,4 +5179,94 @@ pnorm(68.5, m, s) - pnorm(67.5, m, s)
 pnorm(69.5, m, s) - pnorm(68.5, m, s) 
 #> [1] 0.11
 pnorm(70.5, m, s) - pnorm(69.5, m, s) 
-#> [1] 0.108
+
+n <- length(x)
+m <- mean(x)
+s <- sd(x)
+simulated_heights <- rnorm(n, m, s)
+
+
+B <- 10000
+tallest <- replicate(B, {
+  simulated_data <- rnorm(800, m, s)
+  max(simulated_data)
+})
+
+mean(tallest >= 7*12)
+
+x <- seq(-4, 4, length.out = 100)
+qplot(x, f, geom = "line", data = data.frame(x, f = dnorm(x)))
+
+# Given values
+mean_height <- 64
+sd_height <- 3
+height_threshold <- 60  # 5 feet in inches
+
+# Calculate the probability
+probability <- pnorm(height_threshold, mean = mean_height, sd = sd_height)
+probability
+
+
+# Given values
+mean_height <- 64
+sd_height <- 3
+height_threshold <- 72  # 6 feet in inches
+
+# Calculate the probability for greater than or equal to 6 feet
+probability <- 1 - pnorm(height_threshold, mean = mean_height, sd = sd_height)
+probability
+
+# Given values
+mean_height <- 64
+sd_height <- 3
+lower_bound <- 61
+upper_bound <- 67
+
+# Calculate the probability
+probability <- pnorm(upper_bound, mean = mean_height, sd = sd_height) - pnorm(lower_bound, mean = mean_height, sd = sd_height)
+probability
+
+
+# Given values in centimeters
+mean_height_cm <- 64 * 2.54
+sd_height_cm <- 3 * 2.54
+lower_bound_cm <- 61 * 2.54
+upper_bound_cm <- 67 * 2.54
+
+# Calculate the probability in centimeters
+probability_cm <- pnorm(upper_bound_cm, mean = mean_height_cm, sd = sd_height_cm) - pnorm(lower_bound_cm, mean = mean_height_cm, sd = sd_height_cm)
+probability_cm
+
+
+# Calculate the probability within 1 standard deviation from the mean
+probability_within_1sd <- pnorm(1) - pnorm(-1)
+probability_within_1sd
+
+# Given parameters
+mean_height <- 69
+sd_height <- 3
+
+# Find the height corresponding to the 99th percentile
+height_99th_percentile <- qnorm(0.99, mean = mean_height, sd = sd_height)
+height_99th_percentile
+
+beads <- rep( c("red", "blue"), times = c(2,3))
+X <- ifelse(sample(beads, 1) == "blue", 1, 0)
+
+ifelse(sample(beads, 1) == "blue", 1, 0)
+
+ifelse(sample(beads, 1) == "blue", 1, 0)
+
+ifelse(sample(beads, 1) == "blue", 1, 0)
+
+color <- rep(c("Black", "Red", "Green"), c(18, 18, 2))
+
+n <- 1000
+X <- sample(ifelse(color == "Red", -1, 1),  n, replace = TRUE)
+X[1:10]
+
+X <- sample(c(-1, 1), n, replace = TRUE, prob = c(9/19, 10/19))
+
+X <- sample(c(-1, 1), n, replace = TRUE, prob = c(9/19, 10/19))
+S <- sum(X)
+S
