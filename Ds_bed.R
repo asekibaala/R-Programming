@@ -5270,3 +5270,15 @@ X <- sample(c(-1, 1), n, replace = TRUE, prob = c(9/19, 10/19))
 X <- sample(c(-1, 1), n, replace = TRUE, prob = c(9/19, 10/19))
 S <- sum(X)
 S
+
+n <- 1000
+B <- 10000
+roulette_winnings <- function(n){
+  X <- sample(c(-1, 1), n, replace = TRUE, prob = c(9/19, 10/19))
+  sum(X)
+}
+S <- replicate(B, roulette_winnings(n))
+
+mean(S <= a)
+
+mean(S < 0)
