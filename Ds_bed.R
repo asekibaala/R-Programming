@@ -5282,3 +5282,28 @@ S <- replicate(B, roulette_winnings(n))
 mean(S <= a)
 
 mean(S < 0)
+
+
+# Total number of pockets
+total_pockets <- 38
+
+# Number of green pockets
+green_pockets <- 2
+
+# Probability of green
+probability_green <- green_pockets / total_pockets
+
+# Print the probability
+probability_green
+
+# Simulating one bet on green in American Roulette
+
+# Define possible outcomes: Win 16 dollars (because you gain 17 but placed 1) or lose 1 dollar
+x <- sample(c(16, -1), 1, prob = c(2/38, 36/38))
+
+
+#x <- sample(c(16, -1), 10, prob = c(2/38, 36/38), replace = TRUE)
+
+
+# Print the outcome of one bet
+x
