@@ -5302,8 +5302,251 @@ probability_green
 x <- sample(c(16, -1), 1, prob = c(2/38, 36/38))
 
 
-#x <- sample(c(16, -1), 10, prob = c(2/38, 36/38), replace = TRUE)
+#x <- sample(c(16, -1), 1000, prob = c(2/38, 36/38), replace = TRUE)
 
 
 # Print the outcome of one bet
 x
+
+# Define the possible outcomes and their probabilities
+outcome_win <- 16   # Winning amount (gain of $16)
+outcome_loss <- -1  # Losing amount (loss of $1)
+
+prob_win <- 2 / 38  # Probability of winning (landing on green)
+prob_loss <- 36 / 38  # Probability of losing (not landing on green)
+
+# Calculate the expected value
+expected_value <- (outcome_win * prob_win) + (outcome_loss * prob_loss)
+
+# Print the expected value
+expected_value
+
+# Define the possible outcomes and their probabilities
+outcome_win <- 16   # Winning amount (gain of $16)
+outcome_loss <- -1  # Losing amount (loss of $1)
+
+prob_win <- 2 / 38  # Probability of winning (landing on green)
+prob_loss <- 36 / 38  # Probability of losing (not landing on green)
+
+# Calculate the expected value
+expected_value <- (outcome_win * prob_win) + (outcome_loss * prob_loss)
+
+# Calculate the variance
+variance <- ((outcome_win - expected_value)^2 * prob_win) + 
+  ((outcome_loss - expected_value)^2 * prob_loss)
+
+# Calculate the standard error (standard deviation)
+standard_error <- sqrt(variance)
+
+# Print the standard error
+standard_error
+
+
+
+
+
+# Set the seed for reproducibility
+set.seed(1)
+
+# Define the possible outcomes
+outcomes <- c(16, -1)  # Win 16 or lose 1
+
+# Define the probabilities for each outcome
+probabilities <- c(2/38, 36/38)
+
+# Simulate 1000 bets on green
+winnings <- sample(outcomes, size = 1000, replace = TRUE, prob = probabilities)
+
+# Calculate the total winnings after 1000 bets
+total_winnings <- sum(winnings)
+
+# Print the total winnings
+total_winnings
+
+
+
+
+
+# Define the possible outcomes and their probabilities
+win_amount <- 16   # Amount won if green
+loss_amount <- -1  # Amount lost if not green
+
+prob_win <- 2 / 38  # Probability of landing on green
+prob_loss <- 36 / 38  # Probability of not landing on green
+
+# Calculate the expected value of a single bet (E(X))
+expected_value_X <- (win_amount * prob_win) + (loss_amount * prob_loss)
+
+# Number of bets
+num_bets <- 1000
+
+# Calculate the expected value of S after 1000 bets
+expected_value_S <- num_bets * expected_value_X
+
+# Print the result
+cat("Expected value of S after 1000 bets is:", expected_value_S, "\n")
+
+#This negative expected value indicates that consistently betting on green in 
+#American Roulette is a losing strategy in the long run. The more you bet, 
+#the closer your actual losses are likely to approach the expected value of -105.3 after 1000 bets.
+
+
+# Define the possible outcomes and their probabilities
+win_amount <- 16   # Amount won if green
+loss_amount <- -1  # Amount lost if not green
+
+prob_win <- 2 / 38  # Probability of landing on green
+prob_loss <- 36 / 38  # Probability of not landing on green
+
+# Calculate the expected value of a single bet (E(X))
+expected_value_X <- (win_amount * prob_win) + (loss_amount * prob_loss)
+
+# Calculate E(X^2)
+expected_value_X2 <- (win_amount^2 * prob_win) + (loss_amount^2 * prob_loss)
+
+# Calculate the variance and standard deviation of a single bet (Var(X) and SD(X))
+variance_X <- expected_value_X2 - (expected_value_X)^2
+sd_X <- sqrt(variance_X)
+
+# Number of bets
+num_bets <- 1000
+
+# Calculate the standard error of S after 1000 bets
+standard_error_S <- sqrt(num_bets) * sd_X
+
+# Print the result
+cat("Standard error of S after 1000 bets is:", standard_error_S, "\n")
+
+
+# Given values
+mean_S <- -105.3
+sd_S <- 120.0415
+
+# Calculate the probability of winning money (S > 0)
+prob_winning <- 1 - pnorm(0, mean = mean_S, sd = sd_S)
+
+# Print the result
+cat("The probability of ending up with positive winnings is:", prob_winning, "\n")
+
+
+
+# Set the seed for reproducibility
+set.seed(1)
+
+# Define the possible outcomes and their probabilities
+win_amount <- 16   # Amount won if green
+loss_amount <- -1  # Amount lost if not green
+
+prob_win <- 2 / 38  # Probability of landing on green
+prob_loss <- 36 / 38  # Probability of not landing on green
+
+# Number of bets in each trial
+num_bets <- 1000
+
+# Number of trials (Monte Carlo simulation)
+num_trials <- 1000
+
+# Monte Carlo simulation: generate 1000 outcomes of S
+outcomes_S <- replicate(num_trials, {
+  # Simulate num_bets bets in each trial and sum up the winnings
+  winnings <- sample(c(win_amount, loss_amount), size = num_bets, replace = TRUE, prob = c(prob_win, prob_loss))
+  sum(winnings)
+})
+
+# Calculate the average and standard deviation of the 1,000 outcomes
+average_S <- mean(outcomes_S)
+standard_deviation_S <- sd(outcomes_S)
+
+# Print the results
+cat("Average of S (Monte Carlo):", average_S, "\n")
+cat("Standard deviation of S (Monte Carlo):", standard_deviation_S, "\n")
+
+
+# Set the seed for reproducibility
+set.seed(1)
+
+# Define the possible outcomes and their probabilities
+win_amount <- 16   # Amount won if green
+loss_amount <- -1  # Amount lost if not green
+
+prob_win <- 2 / 38  # Probability of landing on green
+prob_loss <- 36 / 38  # Probability of not landing on green
+
+# Number of bets in each trial
+num_bets <- 1000
+
+# Number of trials (Monte Carlo simulation)
+num_trials <- 1000
+
+# Monte Carlo simulation: generate 1000 outcomes of S
+outcomes_S <- replicate(num_trials, {
+  # Simulate num_bets bets in each trial and sum up the winnings
+  winnings <- sample(c(win_amount, loss_amount), size = num_bets, replace = TRUE, prob = c(prob_win, prob_loss))
+  sum(winnings)
+})
+
+# Calculate the average and standard deviation of the 1,000 outcomes
+average_S <- mean(outcomes_S)
+standard_deviation_S <- sd(outcomes_S)
+
+# Print the results from the Monte Carlo simulation
+cat("Average of S (Monte Carlo):", average_S, "\n")
+cat("Standard deviation of S (Monte Carlo):", standard_deviation_S, "\n")
+
+# CLT results for comparison
+expected_value_S_CLT <- -105.3
+standard_error_S_CLT <- 120.0415
+
+# Print the CLT results
+cat("Expected value of S (CLT):", expected_value_S_CLT, "\n")
+cat("Standard error of S (CLT):", standard_error_S_CLT, "\n")
+
+# Compare the differences
+cat("Difference in average (Monte Carlo - CLT):", average_S - expected_value_S_CLT, "\n")
+cat("Difference in standard deviation (Monte Carlo - CLT):", standard_deviation_S - standard_error_S_CLT, "\n")
+
+
+# Load necessary libraries
+library(ggplot2)
+
+# Define a function to perform the Monte Carlo simulation for a given number of bets
+monte_carlo_simulation <- function(num_bets, num_trials = 1000) {
+  win_amount <- 16   # Amount won if green
+  loss_amount <- -1  # Amount lost if not green
+  
+  prob_win <- 2 / 38  # Probability of landing on green
+  prob_loss <- 36 / 38  # Probability of not landing on green
+  
+  # Run the Monte Carlo simulation
+  outcomes_S <- replicate(num_trials, {
+    winnings <- sample(c(win_amount, loss_amount), size = num_bets, replace = TRUE, prob = c(prob_win, prob_loss))
+    sum(winnings)
+  })
+  
+  # Calculate the mean and standard deviation of the outcomes
+  list(mean = mean(outcomes_S), sd = sd(outcomes_S))
+}
+
+# Define the different numbers of bets to test
+num_bets_list <- c(100, 500, 1000, 5000, 10000)
+results <- data.frame(Number_of_Bets = num_bets_list, Mean = numeric(length(num_bets_list)), SD = numeric(length(num_bets_list)))
+
+# Run the simulation for each number of bets
+for (i in seq_along(num_bets_list)) {
+  simulation_result <- monte_carlo_simulation(num_bets = num_bets_list[i])
+  results$Mean[i] <- simulation_result$mean
+  results$SD[i] <- simulation_result$sd
+}
+
+# Plot the results
+ggplot(results, aes(x = Number_of_Bets)) +
+  geom_line(aes(y = Mean), color = "blue", size = 1.2) +
+  geom_point(aes(y = Mean), color = "blue", size = 2) +
+  geom_line(aes(y = SD), color = "red", size = 1.2) +
+  geom_point(aes(y = SD), color = "red", size = 2) +
+  labs(title = "Convergence of Monte Carlo Results with Central Limit Theorem",
+       x = "Number of Simulations",
+       y = "Values",
+       caption = "Blue = Mean, Red = Standard Deviation") +
+  theme_minimal() +
+  scale_x_continuous(trans = "log10")
