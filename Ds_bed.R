@@ -5550,3 +5550,240 @@ ggplot(results, aes(x = Number_of_Bets)) +
        caption = "Blue = Mean, Red = Standard Deviation") +
   theme_minimal() +
   scale_x_continuous(trans = "log10")
+
+
+# Variables
+n <- 1000        # Number of loans
+p <- 0.02        # Probability of default (2%)
+l <- 200000      # Loss per default
+loan_amount <- 180000  # Amount of each loan
+
+# Calculate expected profit
+expected_profit <- n * (1 - p) * loan_amount - n * p * l
+
+# Print the result
+expected_profit
+
+
+# Load required library
+library(ggplot2)
+
+# Parameters
+n <- 1000
+p <- 0.02
+l <- 200000
+loan_amount <- 180000
+
+# Calculate expected profit for each year
+years <- 1:5
+expected_profit_per_year <- n * (loan_amount - p * l)
+
+# Create a data frame for plotting
+profit_data <- data.frame(
+  Year = years,
+  Expected_Profit = expected_profit_per_year * years # Cumulative profit over years
+)
+
+# Plot the expected profit over 5 years
+ggplot(profit_data, aes(x = Year, y = Expected_Profit)) +
+  geom_line(color = "blue", size = 1) +
+  geom_point(color = "red", size = 3) +
+  labs(
+    title = "Expected Profit Over 5 Years",
+    x = "Year",
+    y = "Cumulative Expected Profit"
+  ) +
+  theme_minimal()
+
+
+# Load necessary libraries
+if (!require("ggplot2")) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+library(ggplot2)
+
+# Set initial parameters
+n_loans <- 1000          # Number of loans per year
+loan_amount <- 180000    # Amount of each loan
+initial_loss <- 200000   # Initial loss per foreclosure
+years <- 5               # Number of years to simulate
+
+# Initialize results storage
+profits <- numeric(years)
+default_rates <- numeric(years)
+losses_per_foreclosure <- numeric(years)
+
+# Set random seed for reproducibility
+set.seed(1)
+
+# Simulate each year
+for (year in 1:years) {
+  # Introduce variability in default rate (around 2%)
+  default_rate <- rnorm(1, mean = 0.02, sd = 0.005)
+  # Ensure the default rate is within a reasonable range
+  default_rate <- max(0, min(default_rate, 0.05))  # Cap between 0 and 5%
+  
+  # Introduce variability in loss per foreclosure (around $200,000)
+  loss_per_foreclosure <- rnorm(1, mean = initial_loss, sd = 10000)  # Assume 10k standard deviation
+  loss_per_foreclosure <- max(0, loss_per_foreclosure)               # Ensure it's not negative
+  
+  # Calculate expected profit for the year
+  expected_default_count <- n_loans * default_rate
+  total_loss <- expected_default_count * loss_per_foreclosure
+  total_loan_revenue <- n_loans * loan_amount
+  profit <- total_loan_revenue - total_loss
+  
+  # Store results
+  profits[year] <- profit
+  default_rates[year] <- default_rate
+  losses_per_foreclosure[year] <- loss_per_foreclosure
+}
+
+# Create a data frame for plotting
+data <- data.frame(
+  Year = 1:years,
+  Profit = profits,
+  DefaultRate = default_rates * 100,             # Convert to percentage for readability
+  LossPerForeclosure = losses_per_foreclosure
+)
+
+# Plot the profit over the years
+ggplot(data, aes(x = Year)) +
+  geom_line(aes(y = Profit, color = "Profit"), size = 1) +
+  geom_point(aes(y = Profit), color = "blue", size = 3) +
+  geom_line(aes(y = DefaultRate * max(profits) / 100, color = "Default Rate (%)"), size = 1, linetype = "dashed") +
+  geom_point(aes(y = DefaultRate * max(profits) / 100), color = "red", size = 3) +
+  geom_line(aes(y = LossPerForeclosure, color = "Loss Per Foreclosure"), size = 1, linetype = "dotdash") +
+  geom_point(aes(y = LossPerForeclosure), color = "green", size = 3) +
+  scale_color_manual(name = "Metrics", values = c("Profit" = "blue", "Default Rate (%)" = "red", "Loss Per Foreclosure" = "green")) +
+  labs(title = "5-Year Simulation of Bank Profit with Variability",
+       x = "Year",
+       y = "Values",
+       color = "Metrics") +
+  theme_minimal()
+
+
+
+# Load required libraries
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Example data for each year (replace with actual data if different)
+years <- 1:5
+profit <- c(150000000, 152000000, 151000000, 153000000, 154000000)  # in dollars
+default_rate <- c(2, 2.1, 2, 2.2, 2.1)  # in percentage
+loss_per_foreclosure <- c(200000, 205000, 210000, 195000, 200000)  # in dollars
+
+# Combine into a data frame
+data <- data.frame(
+  Year = years,
+  Profit = profit,
+  DefaultRate = default_rate,
+  LossPerForeclosure = loss_per_foreclosure
+)
+
+# Normalize each metric by dividing by its maximum value to bring them to a 0-1 scale
+data_normalized <- data %>%
+  mutate(
+    Profit = Profit / max(Profit),
+    DefaultRate = DefaultRate / max(DefaultRate),
+    LossPerForeclosure = LossPerForeclosure / max(LossPerForeclosure)
+  ) %>%
+  pivot_longer(cols = -Year, names_to = "Metrics", values_to = "Values")
+
+# Plot the normalized data
+ggplot(data_normalized, aes(x = Year, y = Values, color = Metrics, group = Metrics)) +
+  geom_line(size = 1) +
+  geom_point(size = 3) +
+  labs(title = "5-Year Simulation of Bank Metrics (Normalized Scale)",
+       x = "Year",
+       y = "Normalized Values (0-1)",
+       color = "Metrics") +
+  theme_minimal()
+
+# Set seed for reproducibility
+set.seed(1)
+
+# Variables
+n <- 1000        # Number of loans
+p <- 0.02        # Probability of default (2%)
+l <- 200000      # Loss per default
+loan_amount <- 180000  # Amount of each loan
+
+# Expected profit calculation for reference
+expected_profit <- n * (1 - p) * loan_amount - n * p * l
+cat("Expected Profit:", expected_profit, "\n")
+
+# Sampling model
+defaults <- rbinom(1, size = n, prob = p)  # Random number of defaults based on binomial distribution
+profit <- n * loan_amount - defaults * l   # Calculate profit based on random defaults
+cat("Simulated Profit:", profit, "\n")
+
+
+# Variables
+n <- 1000            # Number of loans
+p <- 0.02            # Probability of default (2%)
+l <- 200000          # Loss per default
+loan_amount <- 180000  # Amount of each loan
+
+# Set up the equation to make expected profit zero
+# Expected profit formula: (n * (1 - p) * (loan_amount + x)) - (n * p * l) = 0
+
+# Calculate x that makes expected profit zero
+x <- (n * p * l - n * (1 - p) * loan_amount) / (n * (1 - p))
+
+# Print the required amount to charge each borrower
+cat("Amount to charge each borrower (x):", x, "\n")
+
+# Calculate the effective interest rate (x / loan_amount)
+interest_rate <- x / loan_amount
+cat("Effective interest rate:", interest_rate * 100, "%", "\n")
+
+
+# Variables
+n <- 1000        # Number of loans
+p <- 0.02        # Probability of default (2%)
+l <- 200000      # Loss per default
+loan_amount <- 180000  # Amount of each loan
+
+# Number of simulations
+num_simulations <- 10000
+profits <- numeric(num_simulations)  # Store profit results for each simulation
+
+# Monte Carlo Simulation
+set.seed(1)  # Set seed for reproducibility
+for (i in 1:num_simulations) {
+  defaults <- rbinom(1, size = n, prob = p)  # Random number of defaults in each simulation
+  profits[i] <- n * loan_amount - defaults * l  # Calculate profit based on random defaults
+}
+
+# Calculate average profit and standard deviation of profits
+average_profit <- mean(profits)
+std_dev_profit <- sd(profits)
+cat("Average Profit:", average_profit, "\n")
+cat("Standard Deviation of Profit:", std_dev_profit, "\n")
+
+# Plot the distribution of profits
+hist(profits, breaks = 50, main = "Distribution of Bank Profits", 
+     xlab = "Profit", col = "skyblue", border = "white")
+abline(v = 0, col = "red", lwd = 2, lty = 2)  # Line at the break-even point (profit = 0)
+
+
+# Variables
+n <- 1000        # Number of loans
+p <- 0.02        # Probability of default
+l <- 200000      # Loss per default
+
+# Calculate x for breakeven
+x <- (p * l) / (1 - p)
+cat("Break-even charge per loan:", x, "\n")
+
+# Calculate standard error (SE)
+SE <- sqrt(n * p * (1 - p) * (x + l)^2)
+cat("Standard Error of Profit (SE):", SE, "\n")
+
+# Probability of losing money (S < 0) when expected profit is 0
+# Since we are at breakeven, this probability is P(Z < 0) = 0.5
+probability_lose_money <- pnorm(0, mean = 0, sd = SE)
+cat("Probability of losing money:", probability_lose_money, "\n")
+
+
