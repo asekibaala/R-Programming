@@ -5822,3 +5822,163 @@ cat("The required x to minimize the risk to 1 in 100 is:", x_required, "\n")
 
 
 
+# Given variables
+n <- 1000        # Number of loans
+p <- 0.02        # Probability of default (2%)
+l <- 200000      # Loss per default
+loan_amount <- 180000  # Amount of each loan
+
+# x from the previous calculation
+x <- x_required  # Replace x_required with the actual value from previous code
+
+# Calculate Expected Profit per Loan
+expected_profit_per_loan <- (1 - p) * x - p * l
+cat("Expected Profit per Loan:", expected_profit_per_loan, "\n")
+
+# Calculate Expected Total Profit
+expected_total_profit <- n * expected_profit_per_loan
+cat("Expected Total Profit:", expected_total_profit, "\n")
+
+
+# Set seed for reproducibility
+set.seed(1)
+
+# Variables
+n <- 1000            # Number of loans
+p <- 0.02            # Probability of default (2%)
+l <- 200000          # Loss per default
+loan_amount <- 180000  # Amount of each loan
+x <- 182080          # Total charged per loan (value of x from the previous answer)
+
+# Simulation parameters
+num_simulations <- 10000
+profits <- numeric(num_simulations)
+
+# Monte Carlo Simulation
+for (i in 1:num_simulations) {
+  defaults <- rbinom(1, size = n, prob = p)   # Random number of defaults
+  profit <- n * x - defaults * l              # Calculate profit based on defaults
+  profits[i] <- profit
+}
+
+# Calculate probability of a negative profit (losing money)
+prob_negative_profit <- mean(profits < 0)
+
+# Print results
+cat("Estimated Probability of Negative Profit (Monte Carlo):", prob_negative_profit, "\n")
+
+# Visualize the distribution of profits
+hist(profits, breaks = 50, main = "Distribution of Profits from Monte Carlo Simulation",
+     xlab = "Profit", col = "skyblue", border = "white")
+abline(v = 0, col = "red", lwd = 2, lty = 2)
+
+
+# Set seed for reproducibility
+set.seed(1)
+
+# Variables
+n <- 1000            # Number of loans
+p <- 0.02            # Probability of default (2%)
+l <- 200000          # Loss per default
+loan_amount <- 180000  # Amount of each loan
+x <- 182080          # Total charged per loan (value of x from the previous answer)
+
+# Simulation parameters
+num_simulations <- 10000
+profits <- numeric(num_simulations)
+
+# Monte Carlo Simulation
+for (i in 1:num_simulations) {
+  defaults <- rbinom(1, size = n, prob = p)   # Random number of defaults
+  profit <- n * x - defaults * l              # Calculate profit based on defaults
+  profits[i] <- profit
+}
+
+# Calculate probability of a negative profit (losing money)
+prob_negative_profit <- mean(profits < 0)
+
+# Print results
+cat("Estimated Probability of Negative Profit (Monte Carlo):", prob_negative_profit, "\n")
+
+# Set up breaks to match expected range of profit values
+breaks_seq <- seq(min(profits), max(profits), by = 100000)
+
+# Visualize the distribution of profits with adjusted x-axis
+hist(profits, breaks = breaks_seq, main = "Distribution of Profits from Monte Carlo Simulation",
+     xlab = "Profit", col = "skyblue", border = "white", xaxt = "n")
+axis(1, at = seq(min(profits), max(profits), by = 500000), las = 1)
+abline(v = 0, col = "red", lwd = 2, lty = 2)
+
+
+# Variables
+n <- 1            # Since we are looking for profit per loan
+p <- 0.04         # Updated probability of default (4%)
+l <- 200000       # Loss per default
+x <- 9000         # Extra amount charged per loan due to interest
+
+# Calculate expected profit per loan
+# Expected profit formula: (1 - p) * x - p * l
+expected_profit_per_loan <- (1 - p) * x - p * l
+
+# Print the result
+cat("Expected Profit per Loan:", expected_profit_per_loan, "\n")
+
+# Variables
+p <- 0.04          # Probability of default (4%)
+l <- 200000        # Loss per default
+x <- 9000          # Extra amount charged per loan due to interest
+
+# Expected profit per loan
+expected_profit_per_loan <- (1 - p) * x - p * l
+
+# Standard error per loan
+standard_error_per_loan <- sqrt(p * (l + x)^2 + (1 - p) * x^2)
+
+# Desired z-score for a 0.01 probability (1% quantile of standard normal distribution)
+z_score <- -qnorm(0.01)
+
+# Solve for n such that P(S < 0) < 0.01
+# We want n such that z_score <= (0 - n * expected_profit_per_loan) / (sqrt(n) * standard_error_per_loan)
+# Rearranging, we get:
+# n >= (z_score * standard_error_per_loan / expected_profit_per_loan)^2
+
+n_required <- (z_score * standard_error_per_loan / expected_profit_per_loan)^2
+n_required <- ceiling(n_required)  # Round up to the nearest integer, since n must be whole
+
+# Print the result
+cat("Minimum number of loans (n) to ensure less than 1% chance of losing money:", n_required, "\n")
+
+
+# Set parameters
+p <- 0.04              # Probability of default (4%)
+l <- 200000            # Loss per default
+x <- 9000              # Extra amount charged per loan
+n_required <- 10430    # The value of n we obtained from the previous calculation
+num_simulations <- 10000  # Number of Monte Carlo simulations
+
+# Run the Monte Carlo simulation
+set.seed(1)  # Set seed for reproducibility
+loss_count <- 0  # Count the number of times we have a negative profit
+
+for (i in 1:num_simulations) {
+  # Random number of defaults based on binomial distribution
+  defaults <- rbinom(1, size = n_required, prob = p)
+  
+  # Calculate profit
+  profit <- n_required * x - defaults * l
+  
+  # Check if profit is negative
+  if (profit < 0) {
+    loss_count <- loss_count + 1
+  }
+}
+
+# Calculate probability of losing money
+probability_of_loss <- loss_count / num_simulations
+
+# Print results
+cat("Probability of losing money based on Monte Carlo simulation:", probability_of_loss, "\n")
+cat("Expected probability (target):", 0.01, "\n")
+
+
+
