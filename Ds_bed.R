@@ -5787,3 +5787,38 @@ probability_lose_money <- pnorm(0, mean = 0, sd = SE)
 cat("Probability of losing money:", probability_lose_money, "\n")
 
 
+
+
+
+# Variables
+n <- 1000          # Number of loans
+p <- 0.02          # Probability of default (2%)
+l <- 200000        # Loss per default
+loan_amount <- 180000  # Amount of each loan
+target_prob <- 0.01    # Desired probability of losing money
+
+# Calculate mean and standard deviation of S (profit) as functions of x
+mean_profit <- function(x) {
+  n * ((1 - p) * x - p * l)
+}
+
+std_error_profit <- function(x) {
+  sqrt(n) * sqrt(p * (1 - p) * (x + l)^2)
+}
+
+# Use the Z-score for 1% probability (1 in 100 chance)
+z_score <- qnorm(target_prob)
+
+# Calculate x such that P(S < 0) = 0.01
+# We need mean_profit(x) / std_error_profit(x) = z_score
+solve_for_x <- function() {
+  uniroot(function(x) mean_profit(x) / std_error_profit(x) - z_score, 
+          lower = 0, upper = 500000)$root
+}
+
+# Get the value of x
+x_required <- solve_for_x()
+cat("The required x to minimize the risk to 1 in 100 is:", x_required, "\n")
+
+
+
