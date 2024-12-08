@@ -5982,3 +5982,82 @@ cat("Expected probability (target):", 0.01, "\n")
 
 
 
+# Variables
+n <- 1000             # Number of loans
+loan_amount <- 180000 # Amount of each loan
+l <- 200000           # Loss per default
+
+# Monte Carlo simulation settings
+set.seed(123)         # For reproducibility
+num_simulations <- 10000  # Number of simulation runs
+
+# Monte Carlo simulation for correlated default rates
+profits <- replicate(num_simulations, {
+  # Randomly choose default probability between 0.03 and 0.05
+  default_prob <- ifelse(runif(1) < 0.5, 0.03, 0.05)
+  
+  # Generate the number of defaults based on the correlated probability
+  defaults <- rbinom(1, size = n, prob = default_prob)
+  
+  # Calculate total profit
+  total_profit <- n * loan_amount - defaults * l
+  return(total_profit)
+})
+
+# Summary of simulation results
+expected_profit <- mean(profits)
+std_error <- sd(profits)
+
+# Display results
+cat("Expected Profit:", expected_profit, "\n")
+cat("Standard Error of Profit:", std_error, "\n")
+
+# Plotting the distribution of profits
+hist(profits, breaks = 50, main = "Distribution of Profits with Correlated Defaults",
+     xlab = "Total Profit", col = "lightblue", border = "black")
+abline(v = expected_profit, col = "red", lwd = 2, lty = 2)
+
+
+# Variables
+n <- 1000             # Number of loans
+loan_amount <- 180000 # Amount of each loan
+l <- 200000           # Loss per default
+
+# Monte Carlo simulation settings
+set.seed(123)         # For reproducibility
+num_simulations <- 10000  # Number of simulation runs
+
+# Monte Carlo simulation for correlated default rates
+profits <- replicate(num_simulations, {
+  # Randomly choose default probability between 0.03 and 0.05
+  default_prob <- ifelse(runif(1) < 0.5, 0.03, 0.05)
+  
+  # Generate the number of defaults based on the correlated probability
+  defaults <- rbinom(1, size = n, prob = default_prob)
+  
+  # Calculate total profit
+  total_profit <- n * loan_amount - defaults * l
+  return(total_profit)
+})
+
+# Calculating metrics
+expected_profit <- mean(profits)
+std_error <- sd(profits)
+prob_losing_money <- mean(profits < 0)
+prob_losing_10M <- mean(profits < -10000000)
+
+# Display results
+cat("Expected Profit:", expected_profit, "\n")
+cat("Standard Error of Profit:", std_error, "\n")
+cat("Probability of Losing Money:", prob_losing_money, "\n")
+cat("Probability of Losing More Than $10,000,000:", prob_losing_10M, "\n")
+
+# Plotting the distribution of profits
+hist(profits, breaks = 50, main = "Distribution of Profits with Correlated Defaults",
+     xlab = "Total Profit", col = "lightblue", border = "black")
+abline(v = expected_profit, col = "red", lwd = 2, lty = 2)
+
+library(tidyverse)
+library(dslabs)
+take_poll(25)
+
