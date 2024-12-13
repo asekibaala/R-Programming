@@ -6061,3 +6061,49 @@ library(tidyverse)
 library(dslabs)
 take_poll(25)
 
+
+
+### Explanation of the Problem
+
+#The question asks for the expected value of \( S \), the total number of Democrats in a sample of size \( N = 25 \). Here’s how we solve it:
+  
+# The proportion \( p \) of voters who are Democrats defines the probability of selecting a Democrat in a single random draw.
+#The total number \( S \) of Democrats in the sample follows a **binomial distribution** with parameters \( N = 25 \) (number of trials) and \( p \) (probability of success).
+#The expected value of a binomial random variable \( S \) is given by:
+
+ #   E(S) = N*p
+
+
+#This formula tells us the expected number of Democrats in the sample, based on the size of the sample (\( N \)) and the proportion of Democrats (\( p \)) in the population.
+
+### R Solution
+
+
+# Parameters
+N <- 25    # Sample size
+p <- 0.6   # Proportion of Democrats (you can modify this value)
+
+# Calculate expected value
+expected_value <- N * p
+cat("The expected value of S is:", expected_value, "\n")
+
+
+#If \( p = 0.6 \) (for example), the expected value would be \( 25 \times 0.6 = 15 \).
+
+
+
+# Sample size
+N <- 25  
+
+# Generate 100 evenly spaced values of p between 0 and 1
+p <- seq(0, 1, length = 100)
+
+# Calculate the standard error for each value of p
+se <- sqrt((p * (1 - p)) / N)
+
+# Plot SE versus p
+plot(p, se, type = "l", col = "blue", lwd = 2,
+     xlab = "Proportion (p)", ylab = "Standard Error (SE)",
+     main = "Standard Error vs. Proportion (p)")
+grid()
+
