@@ -6107,3 +6107,30 @@ plot(p, se, type = "l", col = "blue", lwd = 2,
      main = "Standard Error vs. Proportion (p)")
 grid()
 
+
+
+# Define the sample sizes
+sample_sizes <- c(25, 100, 1000)
+
+# Generate the sequence for p
+p <- seq(0, 1, length = 100)
+
+# Set up the plotting window for 3 plots side by side
+par(mfrow = c(1, 3)) 
+
+# Loop through each sample size
+for (N in sample_sizes) {
+  # Calculate the standard error for the current N
+  se <- sqrt((p * (1 - p)) / N)
+  
+  # Plot SE versus p
+  plot(p, se, type = "l", col = "blue", lwd = 2,
+       xlab = "Proportion (p)", ylab = "Standard Error (SE)",
+       main = paste("N =", N))
+  grid()
+}
+
+# Reset the plotting window to default
+par(mfrow = c(1, 1))
+
+
