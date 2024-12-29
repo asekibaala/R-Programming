@@ -6133,4 +6133,87 @@ for (N in sample_sizes) {
 # Reset the plotting window to default
 par(mfrow = c(1, 1))
 
+B <- 10000
+N <- 1000
+x_hat <- replicate(B, {
+  x <- sample(c(0,1), size = N, replace = TRUE, prob = c(1 - p, p))
+  mean(x)
+})
+
+
+
+p <- 0.45
+N <- 1000
+
+x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1 - p, p))
+x_hat <- mean(x)
+
+
+B <- 10000
+x_hat <- replicate(B, {
+  x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1 - p, p))
+  mean(x)
+})
+
+mean(x_hat)
+#> [1] 0.45
+sd(x_hat)
+#> [1] 0.0157
+#> 
+#> 
+
+
+
+take_sample <- function(p, N) {
+  # Simulate the sample with Democrats (1s) and Republicans (0s)
+  sample <- rbinom(n = N, size = 1, prob = p)
+  
+  # Calculate and return the sample average
+  return(mean(sample))
+}
+
+# Example usage:
+#set.seed(123)  # For reproducibility
+p <- 0.45  # Proportion of Democrats
+N <- 25    # Sample size
+sample_avg <- take_sample(p, N)
+print(sample_avg)
+
+# Set parameters
+p <- 0.45
+N <- 100
+n_simulations <- 10000  # Number of samples
+
+# Simulate errors 10,000 times
+#set.seed(123)  # For reproducibility
+errors <- replicate(n_simulations, take_sample(p, N) - p)
+
+# Inspect the results
+print(head(errors))
+
+hist(errors, main = "Distribution of Sampling Errors", xlab = "Errors")
+
+
+# Calculate the mean of errors
+mean_error <- mean(errors)
+
+# Plot the histogram of errors
+hist(errors, main = "Histogram of Errors", xlab = "Errors", col = "lightblue", border = "black")
+
+# Print the mean error for inspection
+print(mean_error)
+
+# Calculate the average size of the error (absolute value of the error)
+mean_abs_error <- mean(abs(errors))
+
+# Print the result
+print(mean_abs_error)
+
+# Calculate the standard deviation of the errors
+std_error <- sd(errors)
+
+# Print the result
+print(std_error)
+
+
 
