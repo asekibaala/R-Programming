@@ -86,8 +86,30 @@ polls <- polls_us_election_2016 %>%
 print(polls)
 
 
+#Q4
+library(dslabs)
+library(dplyr)
 
+# Load the data
+data("polls_us_election_2016")
 
+# Filter the polls and calculate confidence intervals
+polls <- polls_us_election_2016 %>%
+  filter(enddate >= "2016-10-31" & state == "U.S.") %>%
+  mutate(
+    x_hat = rawpoll_clinton / 100,
+    se_hat = sqrt(x_hat * (1 - x_hat) / samplesize),
+    lower = x_hat - 1.96 * se_hat,
+    upper = x_hat + 1.96 * se_hat,
+    hit = lower <= 0.482 & upper >= 0.482
+  ) %>%
+  select(pollster, enddate, x_hat, lower, upper, hit)
+
+# Calculate the proportion of confidence intervals that included p
+proportion_hit <- mean(polls$hit)
+
+# Print the proportion
+cat("Proportion of confidence intervals that included p:", proportion_hit, "\n")
 
 
 
