@@ -312,3 +312,83 @@ ggplot(polls_filtered, aes(x = pollster, y = error)) +
        x = "Pollster",
        y = "Error (mu_hat - 0.021)") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+
+
+##################12th-1-2025###############
+# Parameters
+N <- 1000
+theta <- 0.5
+
+# Simulate samples and calculate p-values
+set.seed(123) # For reproducibility
+p_values <- replicate(10000, {
+  x <- rbinom(1, N, theta) / N
+  z <- sqrt(N) * (x - theta) / sqrt(theta * (1 - theta))
+  2 * (1 - pnorm(abs(z)))
+})
+
+# Report results
+mean(p_values < 0.05) # Proportion of p-values below 0.05
+mean(p_values < 0.01) # Proportion of p-values below 0.01
+
+
+# Plot histogram
+hist(p_values, main = "Histogram of p-values", xlab = "p-value", breaks = 30, col = "blue", border = "white")
+
+# Parameters
+theta <- 0.52
+
+# Simulate samples and calculate p-values
+p_values_52 <- replicate(10000, {
+  x <- rbinom(1, N, theta) / N
+  z <- sqrt(N) * (x - 0.5) / sqrt(0.5 * (1 - 0.5)) # Testing against null hypothesis theta = 0.5
+  2 * (1 - pnorm(abs(z)))
+})
+
+# Report results
+mean(p_values_52 < 0.05) # Proportion of p-values below 0.05
+1 - mean(p_values_52 < 0.05) # 1 - power
+
+
+# Define values for N and theta
+values <- expand.grid(N = c(25, 50, 100, 500, 1000), theta = seq(0.51, 0.75, by = 0.01))
+
+# Initialize results dataframe
+results <- data.frame()
+
+# Loop through combinations of N and theta
+for (i in 1:nrow(values)) {
+  N <- values$N[i]
+  theta <- values$theta[i]
+  
+  # Simulate p-values
+  p_vals <- replicate(10000, {
+    x <- rbinom(1, N, theta) / N
+    z <- sqrt(N) * (x - 0.5) / sqrt(0.5 * (1 - 0.5)) # Null hypothesis theta = 0.5
+    2 * (1 - pnorm(abs(z)))
+  })
+  
+  # Compute power (proportion of p-values < 0.05)
+  power <- mean(p_vals < 0.05)
+  
+  # Store results
+  results <- rbind(results, data.frame(N = N, theta = theta, power = power))
+}
+
+# Plot power as a function of N for each theta
+library(ggplot2)
+
+ggplot(results, aes(x = N, y = power, color = as.factor(theta), group = theta)) +
+  geom_line() +
+  labs(title = "Power as a Function of Sample Size (N)",
+       x = "Sample Size (N)",
+       y = "Power",
+       color = expression(theta)) +
+  theme_minimal()
+
+
+
+
