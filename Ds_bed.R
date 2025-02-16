@@ -6215,5 +6215,118 @@ std_error <- sd(errors)
 # Print the result
 print(std_error)
 
+#Data-driven models exercise
+library(dslabs)
+library(dplyr)
+
+# Define the population: male heights
+x <- heights %>% filter(sex == "Male") %>% pull(height)
+
+# Calculate the population average (mean) and standard deviation
+population_mean <- mean(x)
+population_sd <- sd(x)
+
+# Print the results
+cat("Population Average (Mean):", population_mean, "\n")
+cat("Population Standard Deviation:", population_sd, "\n")
+
+
+
+
+# Define the population: male heights
+x <- heights %>% filter(sex == "Male") %>% pull(height)
+
+# Population parameters
+mu <- mean(x)
+sigma <- sd(x)
+
+# Take a random sample of size 50 with replacement
+set.seed(42)  # Set seed for reproducibility
+sample_x <- sample(x, size = 50, replace = TRUE)
+
+# Compute estimates for sample mean and standard deviation
+sample_mu <- mean(sample_x)
+sample_sigma <- sd(sample_x)
+
+# Print results
+cat("Population Mean (μ):", mu, "\n")
+cat("Population Standard Deviation (σ):", sigma, "\n")
+cat("Sample Mean Estimate:", sample_mu, "\n")
+cat("Sample Standard Deviation Estimate:", sample_sigma, "\n")
+
+
+library(dslabs)
+
+# Load male students' height data
+x <- heights |> filter(sex == "Male") |> pull(height)
+
+# Take a random sample of size 50
+set.seed(1)  # Ensure reproducibility
+sample_x <- sample(x, size = 50, replace = TRUE)
+
+# Estimate population standard deviation using the sample standard deviation
+sigma_hat <- sd(sample_x)
+sigma_hat
+
+
+library(dslabs)
+
+# Load male heights data
+x <- heights |> filter(sex == "Male") |> pull(height)
+
+# Take a random sample of size 50
+set.seed(1)  # Ensure reproducibility
+sample_x <- sample(x, size = 50, replace = TRUE)
+
+# Compute sample mean and standard deviation
+x_bar <- mean(sample_x)
+s <- sd(sample_x)
+N <- length(sample_x)
+
+# Compute confidence interval
+z_star <- 1.96
+lower_bound <- x_bar - z_star * (s / sqrt(N))
+upper_bound <- x_bar + z_star * (s / sqrt(N))
+
+# Print confidence interval
+cat("95% Confidence Interval for μ: (", lower_bound, ",", upper_bound, ")\n")
+
+
+# Define number of simulations
+B <- 10000
+
+# Store results of confidence intervals
+set.seed(1)
+CI_results <- replicate(B, {
+  sample_x <- sample(x, size = 50, replace = TRUE)
+  x_bar <- mean(sample_x)
+  s <- sd(sample_x)
+  lower_bound <- x_bar - z_star * (s / sqrt(N))
+  upper_bound <- x_bar + z_star * (s / sqrt(N))
+  
+  # Check if true mean is within the CI
+  mean(x) >= lower_bound & mean(x) <= upper_bound
+})
+
+# Compute proportion of CIs that contain μ
+CI_coverage <- mean(CI_results)
+cat("Proportion of 95% confidence intervals that contain μ:", CI_coverage, "\n")
+
+
+# Compare quantiles for standard normal vs t-distribution
+qnorm_95 <- qnorm(0.975)  # 95% quantile for normal distribution
+qt_95_10 <- qt(0.975, df = 10)  # t-distribution with df = 10
+qt_95_30 <- qt(0.975, df = 30)  # t-distribution with df = 30
+qt_95_100 <- qt(0.975, df = 100)  # t-distribution with df = 100
+
+# Print results
+cat("95% quantile for standard normal:", qnorm_95, "\n")
+cat("95% quantile for t-distribution (df=10):", qt_95_10, "\n")
+cat("95% quantile for t-distribution (df=30):", qt_95_30, "\n")
+cat("95% quantile for t-distribution (df=100):", qt_95_100, "\n")
+
+
+
+
 
 
