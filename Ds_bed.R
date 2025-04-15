@@ -6327,6 +6327,134 @@ cat("95% quantile for t-distribution (df=100):", qt_95_100, "\n")
 
 
 
+study_time <- c(1, 2, 3, 4, 5)  # Hours studied
+math_scores <- c(50, 55, 65, 70, 80)  # Test scores
+
+model <- lm(math_scores ~ study_time)  # Creates the regression model
+summary(model)  # Shows results
+
+
+galton_heights |>
+  mutate(z_father = round((father - mean(father)) / sd(father))) |>
+  filter(z_father %in% -2:2) |>
+  ggplot() +  
+  stat_qq(aes(sample = son)) +
+  facet_wrap( ~ z_father) 
 
 
 
+
+
+
+# Load required packages
+library(HistData)
+library(dplyr)
+
+# Load the GaltonFamilies dataset
+data("GaltonFamilies")
+
+# Create the galton_heights dataset by picking one male and one female child per family at random
+set.seed(42)  # for reproducibility
+
+galton_heights <- GaltonFamilies %>%
+  group_by(family) %>%
+  mutate(child_num = row_number()) %>%
+  filter(childNum == 1 | childNum == 2) %>%
+  group_by(family, sex) %>%
+  sample_n(1) %>%
+  ungroup()
+
+
+galton_heights <- GaltonFamilies %>%
+  group_by(family, sex) %>%
+  sample_n(1) %>%
+  ungroup()
+
+
+# Load ggplot2 for plotting
+library(ggplot2)
+
+# Mother vs Daughter
+ggplot(filter(galton_heights, sex == "female"), aes(x = mother, y = childHeight)) +
+  geom_point() +
+  labs(title = "Mother vs Daughter", x = "Mother Height", y = "Daughter Height")
+
+# Mother vs Son
+ggplot(filter(galton_heights, sex == "male"), aes(x = mother, y = childHeight)) +
+  geom_point() +
+  labs(title = "Mother vs Son", x = "Mother Height", y = "Son Height")
+
+# Father vs Daughter
+ggplot(filter(galton_heights, sex == "female"), aes(x = father, y = childHeight)) +
+  geom_point() +
+  labs(title = "Father vs Daughter", x = "Father Height", y = "Daughter Height")
+
+# Father vs Son
+ggplot(filter(galton_heights, sex == "male"), aes(x = father, y = childHeight)) +
+  geom_point() +
+  labs(title = "Father vs Son", x = "Father Height", y = "Son Height")
+
+# Correlation between Mother and Daughter
+cor(filter(galton_heights, sex == "female")$mother,
+    filter(galton_heights, sex == "female")$childHeight)
+
+# Correlation between Mother and Son
+cor(filter(galton_heights, sex == "male")$mother,
+    filter(galton_heights, sex == "male")$childHeight)
+
+# Correlation between Father and Daughter
+cor(filter(galton_heights, sex == "female")$father,
+    filter(galton_heights, sex == "female")$childHeight)
+
+# Correlation between Father and Son
+cor(filter(galton_heights, sex == "male")$father,
+    filter(galton_heights, sex == "male")$childHeight)
+
+
+
+set.seed(42)  # for reproducibility
+
+# Pick one male and one female child per family
+galton_heights <- GaltonFamilies %>%
+  group_by(family, gender) %>%
+  sample_n(1) %>%
+  ungroup()
+
+
+# Mother vs Daughter
+ggplot(filter(galton_heights, gender == "female"), aes(x = mother, y = childHeight)) +
+  geom_point() +
+  labs(title = "Mother vs Daughter", x = "Mother Height", y = "Daughter Height")
+
+# Mother vs Son
+ggplot(filter(galton_heights, gender == "male"), aes(x = mother, y = childHeight)) +
+  geom_point() +
+  labs(title = "Mother vs Son", x = "Mother Height", y = "Son Height")
+
+# Father vs Daughter
+ggplot(filter(galton_heights, gender == "female"), aes(x = father, y = childHeight)) +
+  geom_point() +
+  labs(title = "Father vs Daughter", x = "Father Height", y = "Daughter Height")
+
+# Father vs Son
+ggplot(filter(galton_heights, gender == "male"), aes(x = father, y = childHeight)) +
+  geom_point() +
+  labs(title = "Father vs Son", x = "Father Height", y = "Son Height")
+
+
+
+# Correlation between Mother and Daughter
+cor(filter(galton_heights, gender == "female")$mother,
+    filter(galton_heights, gender == "female")$childHeight)
+
+# Correlation between Mother and Son
+cor(filter(galton_heights, gender == "male")$mother,
+    filter(galton_heights, gender == "male")$childHeight)
+
+# Correlation between Father and Daughter
+cor(filter(galton_heights, gender == "female")$father,
+    filter(galton_heights, gender == "female")$childHeight)
+
+# Correlation between Father and Son
+cor(filter(galton_heights, gender == "male")$father,
+    filter(galton_heights, gender == "male")$childHeight)
