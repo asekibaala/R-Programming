@@ -6458,3 +6458,57 @@ cor(filter(galton_heights, gender == "female")$father,
 # Correlation between Father and Son
 cor(filter(galton_heights, gender == "male")$father,
     filter(galton_heights, gender == "male")$childHeight)
+
+
+
+
+####Matrices in R####
+library(tidyverse)
+library(dslabs)
+mnist <- read_mnist()
+class(mnist$train$images)
+
+
+table(mnist$train$labels)
+
+x <- mnist$train$images
+y <- mnist$train$labels
+nrow(x)
+ncol(x)
+dim(x)
+
+
+z <- matrix(rnorm(100*2), 100, 2)
+matrix(1:15, 3, 5)
+
+x[300,100]
+
+x[1:300,1:100]
+
+
+x[1:300,]
+
+
+mnist$train$label[3]
+
+grid <- matrix(x[3,], 28, 28)
+
+
+image(1:28, 1:28, grid)
+
+image(1:28, 1:28, grid[, 28:1])
+
+avgs <- apply(x, 1, mean)
+sds <- apply(x, 1, sd)
+
+avg <- rowMeans(x)
+
+avg <- rowMeans(x)
+boxplot(avg ~ y)
+
+image(1:28, 1:28, matrix(sds, 28, 28)[, 28:1])
+
+
+A <- matrix(c(1, 3, -2, 3, 5, 6, 2, 4, 3), 3, 3, byrow = TRUE)
+b <- matrix(c(5, 7, 8))
+solve(A, b)
