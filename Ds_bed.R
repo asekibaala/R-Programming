@@ -6512,3 +6512,46 @@ image(1:28, 1:28, matrix(sds, 28, 28)[, 28:1])
 A <- matrix(c(1, 3, -2, 3, 5, 6, 2, 4, 3), 3, 3, byrow = TRUE)
 b <- matrix(c(5, 7, 8))
 solve(A, b)
+
+
+
+set.seed(1983)
+library(MASS)
+n <- 100
+rho <- 0.9
+sigma <- 3
+s <- sigma^2*matrix(c(1, rho, rho, 1), 2, 2)
+x <- rbind(mvrnorm(n/2, c(69, 69), s),
+           mvrnorm(n/2, c(60, 60), s))
+
+
+
+
+#############30th-may-2025#############
+names(iris)
+x <- iris[,1:4] |> as.matrix()
+d <- dist(x)
+image(as.matrix(d), col = rev(RColorBrewer::brewer.pal(9, "RdBu")))
+
+cor(x)
+pca <- prcomp(x)
+summary(pca)
+
+
+
+
+d_approx <- dist(pca$x[, 1:2])
+plot(d, d_approx); abline(0, 1, col = "red")
+
+library(ggplot2)
+
+data.frame(pca$x[,1:2], Species = iris$Species) |>
+  ggplot(aes(PC1, PC2, fill = Species)) +
+  geom_point(cex = 3, pch = 21) +
+  coord_fixed(ratio = 1)
+#####################3rd-June-2025################
+
+library(tidyverse)
+library(janitor)
+library(dslabs)
+movielens |> as_tibble() |> head(5)
