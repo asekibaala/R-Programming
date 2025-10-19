@@ -1,20 +1,7 @@
 
-# R-Programming
+# Machine learning -Python Programming
 
-This repository contains exercises and scripts related to modeling in R. The primary focus is on data analysis and visualization using R programming language.
-
-## Contents
-
-- **Ds_bed.R** - Script for modeling exercises in R.
-
-## Requirements
-
-- R (latest version)
-- RStudio (optional)
-
-## Usage
-
-Clone the repository and run the `.R` scripts in your R environment.
+This repository contains exercises, llMs and scripts related to Machine learning , model development . The primary focus is on data analysis,Visualizatin creating LLM models using  programming language such as python.
 
 ```bash
 git clone https://github.com/asekibaala/R-Programming.git
